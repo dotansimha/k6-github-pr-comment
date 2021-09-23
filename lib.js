@@ -49,7 +49,7 @@ export function githubComment(data, options) {
   const prNumber = options.pr || getPullRequestNumber();
 
   if (!prNumber) {
-    console.log("Not a Pull Request. Skipping comment");
+    console.log("Not a Pull Request. Skipping comment creation...");
     return;
   }
 
@@ -78,10 +78,10 @@ export function githubComment(data, options) {
   ].join("\n");
 
   if (existingComment) {
-    console.log("Update comment");
+    console.log("Updating existing PR comment...");
     updateComment(existingComment.id, body);
   } else {
-    console.log("Create comment");
+    console.log("Creating a new PR comment...");
     createComment(prNumber, body);
   }
 
@@ -161,10 +161,14 @@ export function githubComment(data, options) {
 }
 
 function assert2XX(res, message) {
+  if (res.status === 200) {
+    return;
+  }
+
   if (res.status < 200 && res.status >= 300) {
-    console.error(message);
+    console.error(message, res.status, res.error, res.error_code);
   } else {
-    console.warn(message);
+    console.warn(message, res.status, res.error, res.error_code);
   }
 }
 
