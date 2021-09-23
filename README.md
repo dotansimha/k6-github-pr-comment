@@ -4,6 +4,8 @@ This library automatically creates a report from K6 execution, and publishes it 
 
 Thanks to [Kamil Kisiela](https://github.com/kamilkisiela/) for the initial script.
 
+![example](https://i.imgur.com/3y7c957.png)
+
 Features:
 * Easy integration with K6 CLI
 * Automatically creates/updates existing comments.
