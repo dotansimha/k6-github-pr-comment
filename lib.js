@@ -161,7 +161,7 @@ export function githubComment(data, options) {
 }
 
 function assert2XX(res, message) {
-  if (res.status === 200) {
+  if (res.status === 200 || res.status === 201) {
     return;
   }
 
