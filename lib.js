@@ -10,6 +10,7 @@ export function githubComment(data, options) {
   const commit = options.commit;
   const org = options.org;
   const repo = options.repo;
+  const commentKey = options.commentKey;
   const renderTitle = options.renderTitle;
   const renderMessage = options.renderMessage;
 
@@ -70,6 +71,7 @@ export function githubComment(data, options) {
   };
 
   const body = [
+    commentKey ? renderCommentKey(commentKey) : "",
     `### ${renderTitle(status)}`,
     renderMessage(status),
     "```",
@@ -119,7 +121,7 @@ export function githubComment(data, options) {
     const comments = res.json();
 
     if (comments && comments.length) {
-      return matchComment(comments);
+      return matchComment(comments, commentKey);
     }
 
     return null;
@@ -172,8 +174,11 @@ function assert2XX(res, message) {
   }
 }
 
-function matchComment(comments) {
+function matchComment(comments, commentKey) {
   return comments.find(({ body }) => {
+    if (commentKey) {
+      return body.includes(renderCommentKey(commentKey));
+    }
     return body.includes("http_req_waiting");
   });
 }
@@ -187,4 +192,8 @@ function countChecks(checks) {
     fails += parseInt(check.fails);
   }
   return { passes, fails };
+}
+
+function renderCommentKey(commentKey) {
+  return `<!--commentKey:${commentKey}-->`;
 }
