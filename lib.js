@@ -195,5 +195,5 @@ function countChecks(checks) {
 }
 
 function renderCommentKey(commentKey) {
-  return `<!--commentKey:${commentKey}-->`;
+  return `<!-- commentKey:${commentKey} -->`;
 }
